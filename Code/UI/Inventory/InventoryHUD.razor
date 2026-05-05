@@ -12,9 +12,6 @@
 				<div class="inventory-header">
 					<div>
 						<div class="inventory-title">Inventory</div>
-						<div class="inventory-warning" @onclick="() => Log.Info( "TEST CLICK WORKED" )">
-							Click Test
-						</div>
 					</div>
 
 				</div>
@@ -31,7 +28,7 @@
 							int slotIndex = i;
 							var item = Inventory.BackpackSlots[slotIndex];
 
-							<div class="inventory-slot" @onclick="() => Inventory.ClickBackpackSlot( slotIndex )">
+							<div class="inventory-slot" onclick=@(() => Inventory.ClickBackpackSlot( slotIndex ))>
 								<div class="slot-number">@(i + 1)</div>
 
 								@if (item == null)
@@ -60,9 +57,10 @@
 		<div class="hotbar">
 			@for ( int i = 0; i < Inventory.HotbarSlots.Count; i++ )
 			{
-				var item = Inventory.HotbarSlots[i];
+				int slotIndex = i;
+				var item = Inventory.HotbarSlots[slotIndex];
 
-				<div class="hotbar-slot" @onclick="() => Inventory.ClickHotbarSlot( i )">
+				<div class="hotbar-slot" onclick=@(() => Inventory.ClickHotbarSlot( slotIndex ))>
 					<div class="slot-key">@(i + 1)</div>
 
 					@if ( item == null )
@@ -118,6 +116,11 @@
 			hash.Add( Inventory.HeldItem?.Amount ?? 0 );
 
 			foreach ( var item in Inventory.BackpackSlots )
+			{
+				hash.Add( item?.Name );
+				hash.Add( item?.Amount ?? 0 );
+			}
+			foreach ( var item in Inventory.HotbarSlots )
 			{
 				hash.Add( item?.Name );
 				hash.Add( item?.Amount ?? 0 );

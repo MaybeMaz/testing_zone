@@ -16,7 +16,7 @@
 					int slotIndex = i;
 					var item = Inventory.HotbarSlots[slotIndex];
 
-					<div class="hotbar-slot" @onclick="() => Inventory.ClickHotbarSlot( slotIndex )">
+					<div class="hotbar-slot" onclick=@(() => Inventory.ClickHotbarSlot( slotIndex ))>
 						<div class="slot-key">@(slotIndex + 1)</div>
 
 						@if ( item == null )
