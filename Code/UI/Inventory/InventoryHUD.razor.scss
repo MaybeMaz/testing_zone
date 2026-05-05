@@ -146,12 +146,14 @@
 
 	transform: translateX(-50%);
 
-	width: 1094px;
+	width: 420px;
 
 	font-family: Poppins;
 	color: white;
 
 	z-index: 25;
+
+	pointer-events: none;
 }
 
 .held-item {
@@ -166,44 +168,4 @@
 	padding: 12px 16px;
 
 	pointer-events: none;
-}sdsd
-
-.inventory-hotbar-wrapper {
-	position: absolute;
-	left: 50%;
-	bottom: 32px;
-
-	transform: translateX(-50%);
-
-	font-family: Poppins;
-	color: white;
-
-	z-index: 30;
-}
-
-.hotbar {
-	display: flex;
-	flex-direction: row;
-	gap: 10px;
-
-	width: 1094px;
-	justify-content: center;
-}
-
-.hotbar-slot {
-	width: 150px;
-	height: 118px;
-
-	display: flex;
-	flex-direction: column;
-
-	background-color: rgba(12, 18, 24, 0.88);
-	border-radius: 2px;
-
-	padding: 12px;
-
-	box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.35);
-
-	pointer-events: all;
-	cursor: pointer;
 }
