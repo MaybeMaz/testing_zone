@@ -1,0 +1,187 @@
+.inventory-blur-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(0, 0, 0, 0.35);
+
+	backdrop-filter: blur(8px);
+
+	pointer-events: none;
+
+	z-index: 1;
+}
+
+.inventory-wrapper {
+	position: absolute;
+	left: 50%;
+	bottom: 170px;
+
+	transform: translateX(-50%);
+
+	font-family: Poppins;
+	color: white;
+
+	z-index: 20;
+
+	pointer-events: all;
+}
+
+.inventory-window {
+	width: 1094px;
+
+	display: flex;
+	flex-direction: column;
+
+	background-color: transparent;
+	border-radius: 0px;
+
+	padding: 0px;
+
+	box-shadow: none;
+
+	pointer-events: all;
+}
+
+.inventory-header {
+	width: 1094px;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+
+	margin-bottom: 18px;
+}
+
+.inventory-title {
+	font-size: 46px;
+	font-weight: bold;
+}
+
+.inventory-subtitle {
+	font-size: 22px;
+	opacity: 0.55;
+}
+
+.inventory-hint {
+	font-size: 22px;
+	opacity: 0.65;
+}
+
+.section-title {
+	font-size: 30px;
+	font-weight: bold;
+
+	margin-top: 4px;
+	margin-bottom: 14px;
+
+	opacity: 0.85;
+}
+
+.slot-grid {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+
+	width: 1094px;
+
+	justify-content: center;
+
+	pointer-events: all;
+}
+
+.inventory-slot {
+	width: 150px;
+	height: 118px;
+
+	display: flex;
+	flex-direction: column;
+
+	background-color: rgba(12, 18, 24, 0.88);
+	border-radius: 2px;
+
+	padding: 12px;
+
+	box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.35);
+
+	pointer-events: all;
+}
+
+.slot-number {
+	font-size: 22px;
+	font-weight: bold;
+	opacity: 0.7;
+}
+
+.slot-name {
+	font-size: 26px;
+	margin-top: 10px;
+	flex-grow: 1;
+}
+
+.slot-name.empty {
+	opacity: 0.35;
+}
+
+.slot-amount {
+	font-size: 22px;
+	font-weight: bold;
+	text-align: right;
+	opacity: 0.85;
+}
+
+.held-item {
+	margin-top: 16px;
+
+	font-size: 24px;
+	font-weight: bold;
+
+	background-color: rgba(12, 18, 24, 0.88);
+	border-radius: 2px;
+
+	padding: 12px 16px;
+
+	width: 1094px;
+}
+
+.inventory-hotbar-wrapper {
+	position: absolute;
+	left: 50%;
+	bottom: 32px;
+
+	transform: translateX(-50%);
+
+	font-family: Poppins;
+	color: white;
+
+	z-index: 30;
+}
+
+.hotbar {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+
+	width: 1094px;
+	justify-content: center;
+}
+
+.hotbar-slot {
+	width: 150px;
+	height: 118px;
+
+	display: flex;
+	flex-direction: column;
+
+	background-color: rgba(12, 18, 24, 0.88);
+	border-radius: 2px;
+
+	padding: 12px;
+
+	box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.35);
+}

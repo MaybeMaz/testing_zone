@@ -1,0 +1,68 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	<div class="hotbar-wrapper">
+		<div class="hotbar">
+			@if ( Inventory == null )
+			{
+				<div class="hotbar-slot">No inventory</div>
+			}
+			else
+			{
+				@for ( int i = 0; i < Inventory.HotbarSlots.Count; i++ )
+				{
+					int slotIndex = i;
+					var item = Inventory.HotbarSlots[slotIndex];
+
+					<div class="hotbar-slot" @onclick="() => Inventory.ClickHotbarSlot( slotIndex )">
+						<div class="slot-key">@(slotIndex + 1)</div>
+
+						@if ( item == null )
+						{
+							<div class="slot-name empty">Empty</div>
+						}
+						else
+						{
+							<div class="slot-name">@item.Name</div>
+							<div class="slot-amount">x@(item.Amount)</div>
+						}
+					</div>
+				}
+			}
+		</div>
+	</div>
+</root>
+
+@code
+{
+	[Property] public PlayerInventory Inventory { get; set; }
+
+	protected override void OnStart()
+	{
+		if ( Inventory == null )
+		{
+			Inventory = GameObject.Components.Get<PlayerInventory>();
+		}
+	}
+
+	protected override int BuildHash()
+	{
+		var hash = new System.HashCode();
+
+		if ( Inventory != null )
+		{
+			hash.Add( Inventory.HeldItem?.Name );
+			hash.Add( Inventory.HeldItem?.Amount ?? 0 );
+
+			foreach ( var item in Inventory.HotbarSlots )
+			{
+				hash.Add( item?.Name );
+				hash.Add( item?.Amount ?? 0 );
+			}
+		}
+
+		return hash.ToHashCode();
+	}
+}

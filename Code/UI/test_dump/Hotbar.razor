@@ -1,0 +1,59 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root>
+    <div class="hotbar">
+        @for (int i = 0; i < Slots.Length; i++)
+        {
+            <div class="slot @(i == SelectedSlot ? "selected" : "")">
+                <div class="number">@(i + 1)</div>
+				<div class="item">@Slots[i]</div>
+            </div>
+        }
+    </div>
+</root>
+
+@code
+{
+public int SelectedSlot { get; set; } = 0;
+
+    public string[] Slots { get; set; } =
+    {
+        "Rock",
+        "Torch",
+        "Spear",
+        "",
+        "",
+        ""
+    };
+
+    protected override void OnUpdate()
+    {
+		if ( Input.Pressed( "Slot1" ) ) SelectedSlot = 0;
+    	if ( Input.Pressed( "Slot2" ) ) SelectedSlot = 1;
+    	if ( Input.Pressed( "Slot3" ) ) SelectedSlot = 2;
+    	if ( Input.Pressed( "Slot4" ) ) SelectedSlot = 3;
+    	if ( Input.Pressed( "Slot5" ) ) SelectedSlot = 4;
+    	if ( Input.Pressed( "Slot6" ) ) SelectedSlot = 5;
+
+		if ( Input.MouseWheel.y > 0 ) SelectedSlot--;
+    	if ( Input.MouseWheel.y < 0 ) SelectedSlot++;
+    	if ( SelectedSlot < 0 ) SelectedSlot = Slots.Length - 1;
+   		if ( SelectedSlot >= Slots.Length ) SelectedSlot = 0;
+
+    Log.Info( $"Selected Slot: {SelectedSlot}" );
+        for (int i = 0; i < Slots.Length; i++)
+        {
+            if (Input.Pressed($"Slot{i + 1}"))
+            {
+                SelectedSlot = i;
+            }
+        }
+    }
+	protected override int BuildHash()
+    {
+        return SelectedSlot;
+    }
+}

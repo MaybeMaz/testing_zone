@@ -1,0 +1,46 @@
+Hotbar
+{
+    .hotbar {
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+    }
+
+    .slot {
+		position: relative;
+        width: 100px;
+        height: 100px;
+        background-color: rgba(40, 40, 40, 0.75);
+        border: 2px solid rgba(255, 255, 255, 0.25);
+        border-radius: 6px;
+        color: white;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .slot.selected {
+        border: 3px solid white;
+        background-color: rgba(90, 90, 90, 0.9);
+    }
+
+    .number {
+        position: absolute;
+        top: 4px;
+        left: 6px;
+        font-size: 16px;
+		font-weight: bold;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .item {
+        font-size: 20px;
+        text-align: center;
+    }
+
+	
+
+}

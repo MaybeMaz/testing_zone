@@ -1,0 +1,129 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	@if ( IsOpen )
+	{	
+		<div class="inventory-blur-layer"></div>
+
+		<div class="inventory-wrapper">
+			<div class="inventory-window">
+				<div class="inventory-header">
+					<div>
+						<div class="inventory-title">Inventory</div>
+						<div class="inventory-warning" @onclick="() => Log.Info( "TEST CLICK WORKED" )">
+							Click Test
+						</div>
+					</div>
+
+				</div>
+
+				@if (Inventory == null)
+				{
+					<div class="inventory-warning">No inventory found</div>
+				}
+				else
+				{
+					<div class="slot-grid backpack-grid">
+						@for (int i = 0; i < Inventory.BackpackSlots.Count; i++)
+						{
+							int slotIndex = i;
+							var item = Inventory.BackpackSlots[slotIndex];
+
+							<div class="inventory-slot" @onclick="() => Inventory.ClickBackpackSlot( slotIndex )">
+								<div class="slot-number">@(i + 1)</div>
+
+								@if (item == null)
+								{
+									<div class="slot-name empty">Empty</div>
+								}
+								else
+								{
+									<div class="slot-name">@item.Name</div>
+									<div class="slot-amount">x@(item.Amount)</div>
+								}
+							</div>
+						}
+					</div>
+
+					@if ( Inventory.HeldItem != null )
+					{
+						<div class="held-item">
+							Holding: @Inventory.HeldItem.Name x@(Inventory.HeldItem.Amount)
+						</div>
+					}
+				}
+			</div>
+		</div>
+		<div class="inventory-hotbar-wrapper">
+		<div class="hotbar">
+			@for ( int i = 0; i < Inventory.HotbarSlots.Count; i++ )
+			{
+				var item = Inventory.HotbarSlots[i];
+
+				<div class="hotbar-slot" @onclick="() => Inventory.ClickHotbarSlot( i )">
+					<div class="slot-key">@(i + 1)</div>
+
+					@if ( item == null )
+					{
+						<div class="slot-name empty">Empty</div>
+					}
+					else
+					{
+						<div class="slot-name">@item.Name</div>
+						<div class="slot-amount">x@(item.Amount)</div>
+					}
+				</div>
+		}
+	</div>
+</div>
+	}
+</root>
+
+@code
+{
+	[Property] public PlayerInventory Inventory { get; set; }
+
+	public bool IsOpen { get; set; } = false;
+
+	protected override void OnStart()
+	{
+		if ( Inventory == null )
+		{
+			Inventory = GameObject.Components.Get<PlayerInventory>();
+		}
+	}
+
+	protected override void OnUpdate()
+	{
+		if ( Input.Pressed( "Score" ) )
+		{
+			IsOpen = !IsOpen;
+		}
+
+		Mouse.Visibility = IsOpen ? MouseVisibility.Visible : MouseVisibility.Hidden;
+
+	}
+
+	protected override int BuildHash()
+	{
+		var hash = new System.HashCode();
+
+		hash.Add( IsOpen );
+
+		if ( Inventory != null )
+		{
+			hash.Add( Inventory.HeldItem?.Name );
+			hash.Add( Inventory.HeldItem?.Amount ?? 0 );
+
+			foreach ( var item in Inventory.BackpackSlots )
+			{
+				hash.Add( item?.Name );
+				hash.Add( item?.Amount ?? 0 );
+			}
+		}
+
+		return hash.ToHashCode();
+	}
+}
