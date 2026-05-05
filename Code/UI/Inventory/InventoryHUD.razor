@@ -15,7 +15,7 @@
 				</div>
 			</div>
 		}
-		
+
 		<div class="inventory-wrapper">
 			<div class="inventory-window">
 				<div class="inventory-header">
@@ -57,25 +57,32 @@
 		</div>
 		<div class="inventory-hotbar-wrapper">
 		<div class="hotbar">
-			@for ( int i = 0; i < Inventory.HotbarSlots.Count; i++ )
+			@if ( Inventory != null )
 			{
-				int slotIndex = i;
-				var item = Inventory.HotbarSlots[slotIndex];
+				<div class="inventory-hotbar-wrapper">
+					<div class="hotbar">
+						@for ( int i = 0; i < Inventory.HotbarSlots.Count; i++ )
+						{
+							int slotIndex = i;
+							var item = Inventory.HotbarSlots[slotIndex];
 
-				<div class="hotbar-slot" onclick=@(() => Inventory.ClickHotbarSlot( slotIndex ))>
-					<div class="slot-key">@(i + 1)</div>
+							<div class="hotbar-slot" onclick=@(() => Inventory.ClickHotbarSlot( slotIndex ))>
+								<div class="slot-key">@(slotIndex + 1)</div>
 
-					@if ( item == null )
-					{
-						<div class="slot-name empty">Empty</div>
-					}
-					else
-					{
-						<div class="slot-name">@item.Name</div>
-						<div class="slot-amount">x@(item.Amount)</div>
-					}
+								@if ( item == null )
+								{
+									<div class="slot-name empty">Empty</div>
+								}
+								else
+								{
+									<div class="slot-name">@item.Name</div>
+									<div class="slot-amount">x@(item.Amount)</div>
+								}
+							</div>
+						}
+					</div>
 				</div>
-		}
+			}
 	</div>
 </div>
 	}
