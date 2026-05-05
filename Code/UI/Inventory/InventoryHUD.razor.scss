@@ -22,6 +22,8 @@
 
 	transform: translateX(-50%);
 
+	width: 1094px;
+
 	font-family: Poppins;
 	color: white;
 
@@ -32,6 +34,7 @@
 
 .inventory-window {
 	width: 1094px;
+	height: 470px;
 
 	display: flex;
 	flex-direction: column;
@@ -136,8 +139,23 @@
 	opacity: 0.85;
 }
 
+.held-item-wrapper {
+	position: absolute;
+	left: 50%;
+	bottom: 585px;
+
+	transform: translateX(-50%);
+
+	width: 1094px;
+
+	font-family: Poppins;
+	color: white;
+
+	z-index: 25;
+}
+
 .held-item {
-	margin-top: 16px;
+	width: 1094px;
 
 	font-size: 24px;
 	font-weight: bold;
@@ -147,8 +165,8 @@
 
 	padding: 12px 16px;
 
-	width: 1094px;
-}
+	pointer-events: none;
+}sdsd
 
 .inventory-hotbar-wrapper {
 	position: absolute;

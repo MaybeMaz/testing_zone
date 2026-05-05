@@ -7,6 +7,15 @@
 	{	
 		<div class="inventory-blur-layer"></div>
 
+		@if ( Inventory != null && Inventory.HeldItem != null )
+		{
+			<div class="held-item-wrapper">
+				<div class="held-item">
+					Holding: @Inventory.HeldItem.Name x@(Inventory.HeldItem.Amount)
+				</div>
+			</div>
+		}
+		
 		<div class="inventory-wrapper">
 			<div class="inventory-window">
 				<div class="inventory-header">
@@ -43,13 +52,6 @@
 							</div>
 						}
 					</div>
-
-					@if ( Inventory.HeldItem != null )
-					{
-						<div class="held-item">
-							Holding: @Inventory.HeldItem.Name x@(Inventory.HeldItem.Amount)
-						</div>
-					}
 				}
 			</div>
 		</div>
