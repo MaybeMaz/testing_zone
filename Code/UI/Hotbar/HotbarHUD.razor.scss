@@ -2,14 +2,10 @@
 	position: absolute;
 	left: 50%;
 	bottom: 32px;
-
 	transform: translateX(-50%);
-
 	font-family: Poppins;
 	color: white;
-
 	z-index: 30;
-
 	pointer-events: all;
 }
 
@@ -17,29 +13,29 @@
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
-
 	width: 1094px;
 	justify-content: center;
-
 	pointer-events: all;
 }
 
 .hotbar-slot {
 	width: 150px;
 	height: 118px;
-
 	display: flex;
 	flex-direction: column;
-
 	background-color: rgba(12, 18, 24, 0.88);
+	border: 2px solid rgba(255, 255, 255, 0.12);
 	border-radius: 2px;
-
 	padding: 12px;
-
 	box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.35);
-
 	pointer-events: all;
 	cursor: pointer;
+}
+
+.hotbar-slot.selected {
+	border: 3px solid white;
+	background-color: rgba(40, 55, 70, 0.95);
+	transform: translateY(-6px);
 }
 
 .slot-key {
