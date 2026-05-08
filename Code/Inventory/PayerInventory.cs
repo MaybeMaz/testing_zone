@@ -11,6 +11,8 @@ public sealed class PlayerInventory : Component
 
 	public InventoryItem HeldItem { get; private set; }
 
+	public int SelectedHotbarIndex { get; private set; } = 0;
+
 	protected override void OnStart()
 	{
 		for ( int i = 0; i < HotbarSlotCount; i++ )
@@ -28,6 +30,26 @@ public sealed class PlayerInventory : Component
 		AddItem( "Stone", 5 );
 		AddItem( "Spear", 1 );
 		AddItem( "Torch", 1 );
+	}
+
+	protected override void OnUpdate()
+	{
+	if ( Input.Pressed( "slot1" ) ) SelectHotbarSlot( 0 );
+	if ( Input.Pressed( "slot2" ) ) SelectHotbarSlot( 1 );
+	if ( Input.Pressed( "slot3" ) ) SelectHotbarSlot( 2 );
+	if ( Input.Pressed( "slot4" ) ) SelectHotbarSlot( 3 );
+	if ( Input.Pressed( "slot5" ) ) SelectHotbarSlot( 4 );
+	if ( Input.Pressed( "slot6" ) ) SelectHotbarSlot( 5 );
+
+	if ( Input.MouseWheel.y > 0 )
+	{
+		SelectPreviousHotbarSlot();
+	}
+
+	if ( Input.MouseWheel.y < 0 )
+	{
+		SelectNextHotbarSlot();
+	}
 	}
 
 	public void AddItem( string itemName, int amount )
@@ -77,8 +99,6 @@ public sealed class PlayerInventory : Component
 				return;
 			}
 		}
-
-		Log.Info( "Inventory is full!" );
 	}
 
 	public void RemoveHotbarItem( int slotIndex )
@@ -98,9 +118,7 @@ public sealed class PlayerInventory : Component
 	}
 
 	public void ClickBackpackSlot( int slotIndex )
-{
-	Log.Info( $"Clicked backpack slot {slotIndex}" );
-	
+	{
 	if ( slotIndex < 0 || slotIndex >= BackpackSlots.Count )
 		return;
 
@@ -132,9 +150,7 @@ public sealed class PlayerInventory : Component
 }
 
 	public void ClickHotbarSlot( int slotIndex )
-{
-	Log.Info( $"Clicked hotbar slot {slotIndex}" );
-
+	{
 	if ( slotIndex < 0 || slotIndex >= HotbarSlots.Count )
 		return;
 
@@ -163,5 +179,47 @@ public sealed class PlayerInventory : Component
 		HeldItem = clickedItem;
 		return;
 	}
+}
+
+public void SelectHotbarSlot( int slotIndex )
+{
+	if ( slotIndex < 0 || slotIndex >= HotbarSlots.Count )
+		return;
+
+	SelectedHotbarIndex = slotIndex;
+}
+
+public void SelectNextHotbarSlot()
+{
+	if ( HotbarSlots.Count == 0 )
+		return;
+
+	SelectedHotbarIndex++;
+
+	if ( SelectedHotbarIndex >= HotbarSlots.Count )
+	{
+		SelectedHotbarIndex = 0;
+	}
+}
+
+public void SelectPreviousHotbarSlot()
+{
+	if ( HotbarSlots.Count == 0 )
+		return;
+
+	SelectedHotbarIndex--;
+
+	if ( SelectedHotbarIndex < 0 )
+	{
+		SelectedHotbarIndex = HotbarSlots.Count - 1;
+	}
+}
+
+public InventoryItem GetSelectedHotbarItem()
+{
+	if ( SelectedHotbarIndex < 0 || SelectedHotbarIndex >= HotbarSlots.Count )
+		return null;
+
+	return HotbarSlots[SelectedHotbarIndex];
 }
 }

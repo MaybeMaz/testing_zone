@@ -16,7 +16,7 @@
 					int slotIndex = i;
 					var item = Inventory.HotbarSlots[slotIndex];
 
-					<div class="hotbar-slot" onclick=@(() => Inventory.ClickHotbarSlot( slotIndex ))>
+					<div class="hotbar-slot @(Inventory.SelectedHotbarIndex == slotIndex ? "selected" : "")" onclick=@(() => Inventory.ClickHotbarSlot( slotIndex ))>
 						<div class="slot-key">@(slotIndex + 1)</div>
 
 						@if ( item == null )
@@ -55,6 +55,7 @@
 		{
 			hash.Add( Inventory.HeldItem?.Name );
 			hash.Add( Inventory.HeldItem?.Amount ?? 0 );
+			hash.Add( Inventory.SelectedHotbarIndex );
 
 			foreach ( var item in Inventory.HotbarSlots )
 			{
