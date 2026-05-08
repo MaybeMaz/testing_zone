@@ -2,39 +2,38 @@
 @using Sandbox.UI;
 @inherits PanelComponent
 
-@if ( Inventory == null )
-{
-	<div class="hotbar-wrapper">
-		<div>No inventory</div>
-	</div>
-}
-else
-{
+<root>
 	<div class="hotbar-wrapper">
 		<div class="hotbar">
-			@for ( int i = 0; i < Inventory.HotbarSlots.Count; i++ )
+			@if ( Inventory == null )
 			{
-				int slotIndex = i;
-				var item = Inventory.HotbarSlots[slotIndex];
-				bool isSelected = Inventory.SelectedHotbarIndex == slotIndex;
+				<div class="hotbar-slot">No inventory</div>
+			}
+			else
+			{
+				@for ( int i = 0; i < Inventory.HotbarSlots.Count; i++ )
+				{
+					int slotIndex = i;
+					var item = Inventory.HotbarSlots[slotIndex];
 
-				<div class="hotbar-slot @(isSelected ? "selected" : "")" @onclick="@(() => Inventory.SelectHotbarSlot( slotIndex ))">
-					<div class="slot-key">@(slotIndex + 1)</div>
+					<div class="hotbar-slot" onclick=@(() => Inventory.ClickHotbarSlot( slotIndex ))>
+						<div class="slot-key">@(slotIndex + 1)</div>
 
-					@if ( item == null )
-					{
-						<div class="slot-name empty">Empty</div>
-					}
-					else
-					{
-						<div class="slot-name">@item.Name</div>
-						<div class="slot-amount">x@(item.Amount)</div>
-					}
-				</div>
+						@if ( item == null )
+						{
+							<div class="slot-name empty">Empty</div>
+						}
+						else
+						{
+							<div class="slot-name">@item.Name</div>
+							<div class="slot-amount">x@(item.Amount)</div>
+						}
+					</div>
+				}
 			}
 		</div>
 	</div>
-}
+</root>
 
 @code
 {
@@ -54,7 +53,6 @@ else
 
 		if ( Inventory != null )
 		{
-			hash.Add( Inventory.SelectedHotbarIndex );
 			hash.Add( Inventory.HeldItem?.Name );
 			hash.Add( Inventory.HeldItem?.Amount ?? 0 );
 
