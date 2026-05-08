@@ -36,7 +36,6 @@ public sealed class PlayerInventory : Component
 			BackpackSlots.Add( null );
 		}
 
-		// Test items
 		AddItem( "Wood", 10 );
 		AddItem( "Stone", 5 );
 		AddItem( "Spear", 1 );
@@ -45,20 +44,20 @@ public sealed class PlayerInventory : Component
 
 	protected override void OnUpdate()
 	{
-		HandleHotbarSelectionInput();
+		HandleHotbarInput();
 	}
 
-	private void HandleHotbarSelectionInput()
+	private void HandleHotbarInput()
 	{
 		if ( HotbarSlots.Count <= 0 )
 			return;
 
-		// Number keys 1, 2, 3, 4, 5, 6
+		// Number keys: 1, 2, 3, 4, 5, 6
 		for ( int i = 0; i < HotbarSlots.Count; i++ )
 		{
 			string keyName = (i + 1).ToString();
 
-			if ( Input.Pressed( keyName ) )
+			if ( Input.Keyboard.Pressed( keyName ) )
 			{
 				SelectHotbarSlot( i );
 				return;
@@ -66,11 +65,13 @@ public sealed class PlayerInventory : Component
 		}
 
 		// Mouse wheel
-		if ( Input.MouseWheel.y > 0 )
+		float wheel = Input.MouseWheel.y;
+
+		if ( wheel > 0 )
 		{
 			SelectPreviousHotbarSlot();
 		}
-		else if ( Input.MouseWheel.y < 0 )
+		else if ( wheel < 0 )
 		{
 			SelectNextHotbarSlot();
 		}
@@ -86,13 +87,9 @@ public sealed class PlayerInventory : Component
 		var item = SelectedHotbarItem;
 
 		if ( item == null )
-		{
 			Log.Info( $"Selected hotbar slot {SelectedHotbarIndex + 1}: Empty" );
-		}
 		else
-		{
 			Log.Info( $"Selected hotbar slot {SelectedHotbarIndex + 1}: {item.Name} x{item.Amount}" );
-		}
 	}
 
 	public void SelectNextHotbarSlot()
@@ -123,7 +120,6 @@ public sealed class PlayerInventory : Component
 
 	public void AddItem( string itemName, int amount )
 	{
-		// First try to stack in hotbar
 		foreach ( var item in HotbarSlots )
 		{
 			if ( item == null )
@@ -136,7 +132,6 @@ public sealed class PlayerInventory : Component
 			}
 		}
 
-		// Then try to stack in backpack
 		foreach ( var item in BackpackSlots )
 		{
 			if ( item == null )
@@ -149,7 +144,6 @@ public sealed class PlayerInventory : Component
 			}
 		}
 
-		// Then try to place into empty hotbar slot first
 		for ( int i = 0; i < HotbarSlots.Count; i++ )
 		{
 			if ( HotbarSlots[i] == null )
@@ -159,7 +153,6 @@ public sealed class PlayerInventory : Component
 			}
 		}
 
-		// If hotbar is full, place into backpack
 		for ( int i = 0; i < BackpackSlots.Count; i++ )
 		{
 			if ( BackpackSlots[i] == null )
@@ -197,7 +190,6 @@ public sealed class PlayerInventory : Component
 
 		var clickedItem = BackpackSlots[slotIndex];
 
-		// Mouse empty + clicked item = pick item up
 		if ( HeldItem == null && clickedItem != null )
 		{
 			HeldItem = clickedItem;
@@ -205,7 +197,6 @@ public sealed class PlayerInventory : Component
 			return;
 		}
 
-		// Mouse holding item + clicked empty slot = place item
 		if ( HeldItem != null && clickedItem == null )
 		{
 			BackpackSlots[slotIndex] = HeldItem;
@@ -213,7 +204,6 @@ public sealed class PlayerInventory : Component
 			return;
 		}
 
-		// Mouse holding item + clicked another item = swap
 		if ( HeldItem != null && clickedItem != null )
 		{
 			BackpackSlots[slotIndex] = HeldItem;
@@ -231,7 +221,10 @@ public sealed class PlayerInventory : Component
 
 		var clickedItem = HotbarSlots[slotIndex];
 
-		// Mouse empty + clicked item = pick item up
+		// If not holding an item, clicking a hotbar slot should select it.
+		// If it has an item, clicking again can still pick it up only while inventory is open.
+		SelectHotbarSlot( slotIndex );
+
 		if ( HeldItem == null && clickedItem != null )
 		{
 			HeldItem = clickedItem;
@@ -239,7 +232,6 @@ public sealed class PlayerInventory : Component
 			return;
 		}
 
-		// Mouse holding item + clicked empty slot = place item
 		if ( HeldItem != null && clickedItem == null )
 		{
 			HotbarSlots[slotIndex] = HeldItem;
@@ -247,7 +239,6 @@ public sealed class PlayerInventory : Component
 			return;
 		}
 
-		// Mouse holding item + clicked another item = swap
 		if ( HeldItem != null && clickedItem != null )
 		{
 			HotbarSlots[slotIndex] = HeldItem;
